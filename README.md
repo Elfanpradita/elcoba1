@@ -1,90 +1,88 @@
-# 📌 Belajar Pemrograman Web dengan Docker
+# 📌 Project PemWeb dengan Docker
 
-Selamat datang di proyek **Pemrograman Web** menggunakan **Docker**! 🚀
+Selamat datang di repository ini! 🚀 Kita akan belajar Pemrograman Web (PemWeb) menggunakan **HTML dasar, CSS, dan JavaScript**, serta ke depannya akan melakukan **setup VPS** untuk mengonlinekan website. Semoga membantu! 🎉
 
-Di sini kita akan belajar **HTML dasar, CSS, dan JavaScript**, serta ke depannya akan ada **setup VPS** untuk mengonlinekan website kita. Semoga bermanfaat! 😊
+---
 
-## 🛠️ Cara Menjalankan Project
+## 🔥 Cara Menjalankan Project ini
 
-### 1️⃣ Build dan Jalankan Container
+### 1️⃣ Clone Repository
 
-Jalankan perintah berikut untuk membangun dan menjalankan container:
+Jalankan perintah berikut untuk meng-clone repository ini ke komputer atau server kamu:
 
-```sh
-docker-compose up -d
+```bash
+git clone git@github.com:username/repository.git
+cd repository
 ```
 
-> **Note:** Perintah ini akan menjalankan container secara **background (-d)**.
+### 2️⃣ Build dan Jalankan Docker
 
-### 2️⃣ Matikan dan Hapus Container
+Jalankan perintah berikut untuk membangun dan menjalankan container Docker:
 
-Jika ingin menghentikan semua container, gunakan:
+```bash
+docker-compose up --build -d
+```
 
-```sh
+### 3️⃣ Menghentikan Docker
+
+Gunakan perintah ini untuk menghentikan semua container yang berjalan:
+
+```bash
 docker-compose down
 ```
 
-## 🎯 Akses Website
+---
 
-Setelah container berjalan, buka browser dan akses **localhost** atau **IP server** di **port 80**.
+## 🚀 Command Penting
 
-- **Di Komputer Lokal:** `http://localhost`
-- **Di Server:** `http://<IP-SERVER>`
+### Masuk ke dalam Container
 
-## 🔧 Command Penting
-
-Berikut beberapa perintah yang sering digunakan untuk konfigurasi proyek:
-
-**Masuk ke dalam Container:**
-
-```sh
+```bash
 docker exec -it sample bash
 ```
 
-**Generate Key untuk Laravel:**
+### Setup Laravel
 
-```sh
+```bash
 php artisan key:generate
-```
-
-**Buat Storage Link:**
-
-```sh
 php artisan storage:link
-```
-
-**Jalankan Migrasi Database:**
-
-```sh
 php artisan migrate
 ```
 
-**Atur Hak Akses Folder Storage & Bootstrap:**
+### Set Permission Storage & Bootstrap
 
-```sh
+```bash
 chown -R www-data:www-data storage/*
 chown -R www-data:www-data bootstrap/*
 ```
 
-**Inisialisasi Proyek:**
+### Inisialisasi Project
 
-```sh
+```bash
 php artisan project:init
 ```
 
-## 📢 Hubungi Elpun
+---
 
-Jika ada pertanyaan atau ingin berdiskusi lebih lanjut, silakan bergabung di komunitas kami:
+## 🌍 Akses Website
 
-🔹 **Discord:** [discord.gg/gMb8bt5e](https://discord.gg/gMb8bt5e)
+Setelah container berjalan, kamu bisa mengakses website melalui:
 
-🔹 **YouTube:** [@Elpun378](https://www.youtube.com/@Elpun378)
+- **[http://localhost](http://localhost)** (jika diakses dari komputer lokal)
+- **http\://IP\_SERVER** (jika diakses dari server lain)
+
+Port default yang digunakan adalah **80**, jadi cukup akses langsung tanpa perlu menuliskan port.
 
 ---
 
-💡 **Happy Coding!** 🎉
+## 📢 Contact Elpun
 
-**Credit:** Elpun aka Elfan 🚀\
+📌 **Discord:** [https://discord.gg/gMb8bt5e](https://discord.gg/gMb8bt5e)\
+📌 **YouTube:** [@Elpun378](https://www.youtube.com/@Elpun378)
+
+**Happy Coding!** 🚀
+
 From Elpun also known as Elfan Tampan 😎
 
 Tuhan Memberkati semoga sukses dalam segala urusan baik kita. Amin.
+
