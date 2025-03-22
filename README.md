@@ -4,6 +4,26 @@ Selamat datang di repository ini! 🚀 Kita akan belajar Pemrograman Web (PemWeb
 
 ---
 
+## Struktur Proyek
+
+```
+.
+├── Readme.md
+├── db
+│   └── my.cnf
+├── docker-compose.yml
+├── nginx
+│   ├── Dockerfile
+│   └── default.conf
+└── php
+    ├── Dockerfile
+    ├── docker-entrypoint.sh
+    ├── local.ini
+    └── www.conf
+```
+
+---
+
 ## 🔥 Cara Menjalankan Project ini
 
 ### 1️⃣ Clone Repository
@@ -83,6 +103,11 @@ Port default yang digunakan adalah **80**, jadi cukup akses langsung tanpa perlu
 **Happy Coding!** 🚀
 
 From Elpun also known as Elfan Tampan 😎
+
+Pergi ke pasar beli rambutan,
+Makan di rumah bersama teman.
+Dipuji tinggi tak goyah badan,
+Karena rendah hati jadi pegangan. 😎🔥
 
 Tuhan Memberkati semoga sukses dalam segala urusan baik kita. Amin.
 
