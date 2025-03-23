@@ -1,113 +1,93 @@
-# 📌 Project PemWeb dengan Docker
+# SSH Reverse Tunnel: Akses Server Lokal dari VPS
 
-Selamat datang di repository ini! 🚀 Kita akan belajar Pemrograman Web (PemWeb) menggunakan **HTML dasar, CSS, dan JavaScript**, serta ke depannya akan melakukan **setup VPS** untuk mengonlinekan website. Semoga membantu! 🎉
+## **📝 Deskripsi**
+Dokumen ini menjelaskan cara mengakses **server lokal** yang tidak memiliki IP publik melalui **VPS dengan IP publik** menggunakan **SSH Reverse Tunnel**.
 
----
-
-## Struktur Proyek
-
-```
-.
-├── Readme.md
-├── db
-│   └── my.cnf
-├── docker-compose.yml
-├── nginx
-│   ├── Dockerfile
-│   └── default.conf
-└── php
-    ├── Dockerfile
-    ├── docker-entrypoint.sh
-    ├── local.ini
-    └── www.conf
-```
+## **🌐 Informasi Server**
+- **VPS**: `root@64.23.149.217`
+- **Server Lokal**: `elfan@local-server`
+- **Port yang digunakan**: `2222`
 
 ---
 
-## 🔥 Cara Menjalankan Project ini
-
-### 1️⃣ Clone Repository
-
-Jalankan perintah berikut untuk meng-clone repository ini ke komputer atau server kamu:
-
+## **🔹 Langkah 1: Buat SSH Reverse Tunnel**
+### **📌 Jalankan di Server Lokal**
 ```bash
-git clone git@github.com:username/repository.git
-cd repository
+ssh -R 2222:localhost:22 root@64.23.149.217
 ```
+- Ini akan membuka port **2222** di VPS dan meneruskan koneksi ke **port 22** di server lokal.
+- Masukkan password VPS jika diminta.
 
-### 2️⃣ Build dan Jalankan Docker
-
-Jalankan perintah berikut untuk membangun dan menjalankan container Docker:
-
-```bash
-docker-compose up --build -d
-```
-
-### 3️⃣ Menghentikan Docker
-
-Gunakan perintah ini untuk menghentikan semua container yang berjalan:
-
-```bash
-docker-compose down
-```
+📢 **Catatan:** Jangan tutup sesi SSH ini agar koneksi tetap aktif.
 
 ---
 
-## 🚀 Command Penting
-
-### Masuk ke dalam Container
-
+## **🔹 Langkah 2: Akses Server Lokal dari VPS**
+### **📌 Jalankan di VPS**
 ```bash
-docker exec -it sample bash
+ssh -p 2222 elfan@localhost
 ```
+- `-p 2222` → Menggunakan port yang sudah dibuka untuk menghubungkan ke server lokal.
+- `elfan@localhost` → Login sebagai user **elfan** di server lokal.
 
-### Setup Laravel
-
-```bash
-php artisan key:generate
-php artisan storage:link
-php artisan migrate
-```
-
-### Set Permission Storage & Bootstrap
-
-```bash
-chown -R www-data:www-data storage/*
-chown -R www-data:www-data bootstrap/*
-```
-
-### Inisialisasi Project
-
-```bash
-php artisan project:init
-```
+Jika berhasil, sekarang kamu sudah masuk ke server lokal melalui VPS! 🎉
 
 ---
 
-## 🌍 Akses Website
+## **🔹 Langkah 3: Buat Reverse Tunnel Permanen (Opsional)**
+Agar SSH Reverse Tunnel tetap aktif meskipun koneksi terputus atau server restart, gunakan **autossh**.
 
-Setelah container berjalan, kamu bisa mengakses website melalui:
+### **1️⃣ Install autossh di Server Lokal**
+```bash
+sudo apt update && sudo apt install autossh -y
+```
 
-- **[http://localhost](http://localhost)** (jika diakses dari komputer lokal)
-- **http\://IP\_SERVER** (jika diakses dari server lain)
+### **2️⃣ Buat Service di Systemd**
+Buat file service:
+```bash
+sudo nano /etc/systemd/system/reverse-ssh.service
+```
+Isi dengan:
+```
+[Unit]
+Description=Reverse SSH Tunnel to VPS
+After=network.target
 
-Port default yang digunakan adalah **80**, jadi cukup akses langsung tanpa perlu menuliskan port.
+[Service]
+User=elfan
+ExecStart=/usr/bin/autossh -N -R 2222:localhost:22 root@64.23.149.217 -o ServerAliveInterval=60 -o ServerAliveCountMax=3
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### **3️⃣ Aktifkan Service**
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable reverse-ssh
+sudo systemctl start reverse-ssh
+```
+
+🚀 **Sekarang SSH Reverse Tunnel akan berjalan otomatis saat server lokal menyala!**
 
 ---
 
-## 📢 Contact Elpun
+## **🎯 Testing & Troubleshooting**
+- **Cek status service:**
+  ```bash
+  sudo systemctl status reverse-ssh
+  ```
+- **Cek apakah port 2222 terbuka di VPS:**
+  ```bash
+  netstat -tlnp | grep 2222
+  ```
+- **Jika gagal terhubung, pastikan:**
+  - Firewall di VPS dan server lokal tidak memblokir SSH.
+  - SSH di VPS mengizinkan port forwarding (`/etc/ssh/sshd_config` → `GatewayPorts yes`).
 
-📌 **Discord:** [https://discord.gg/gMb8bt5e](https://discord.gg/gMb8bt5e)\
-📌 **YouTube:** [@Elpun378](https://www.youtube.com/@Elpun378)
+---
 
-**Happy Coding!** 🚀
-
-From Elpun also known as Elfan Tampan 😎
-
-Pergi ke pasar beli rambutan,
-Makan di rumah bersama teman.
-Dipuji tinggi tak goyah badan,
-Karena rendah hati jadi pegangan. 😎🔥
-
-Tuhan Memberkati semoga sukses dalam segala urusan baik kita. Amin.
+### **✅ Selesai!** 🚀 Sekarang kamu bisa mengakses server lokal melalui VPS kapan saja!
 
